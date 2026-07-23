@@ -15,6 +15,10 @@ const CONFIG = {
 
 const FISCAL_YEAR = 2027;
 
+// Bump this whenever print-form.html changes — GitHub Pages caches it for
+// 10 minutes, so an un-versioned URL can serve a stale copy after a deploy.
+const PRINT_FORM_VERSION = '20260723-margin-fix';
+
 function $(selector) {
   return document.querySelector(selector);
 }
@@ -419,7 +423,7 @@ async function handlePrintConfirm() {
   // Print a dedicated, forms-designer-built paper layout (print-form.html)
   // instead of the interactive page — the on-screen form and the paper
   // form intentionally look nothing alike.
-  const printWindow = window.open('print-form.html', '_blank');
+  const printWindow = window.open(`print-form.html?v=${PRINT_FORM_VERSION}`, '_blank');
   if (printWindow) {
     printWindow.addEventListener('load', () => printWindow.print());
   }
