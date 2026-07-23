@@ -590,6 +590,18 @@ button[type="submit"]:hover {
     min-height: 45px;
   }
 
+  #vendor-org {
+    min-height: 40px;
+  }
+
+  ::placeholder {
+    color: transparent;
+  }
+
+  .print-fill-line--date {
+    width: 100px;
+  }
+
   input:disabled,
   input[readonly] {
     background: #fff !important;

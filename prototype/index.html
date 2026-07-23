@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Walton County FY2027 Conflict of Interest Disclosure</title>
 <link rel="icon" href="assets/walton-county-seal.png" type="image/png">
-<link rel="stylesheet" href="styles.css?v=20260723-print-header-center">
+<link rel="stylesheet" href="styles.css?v=20260723-print-field-cleanup">
 </head>
 <body>
 
@@ -158,8 +158,12 @@
       </div>
 
       <div class="field">
-        <label for="conflict-began-date">Date Conflict Began <span class="required">*</span></label>
-        <input type="date" id="conflict-began-date" name="conflictBeganDate" data-conditional="true">
+        <label for="conflict-began-date" class="screen-only">Date Conflict Began <span class="required">*</span></label>
+        <input type="date" id="conflict-began-date" name="conflictBeganDate" data-conditional="true" class="screen-only">
+        <div class="print-only">
+          <span class="group-label">Date Conflict Began</span>
+          <span class="print-fill-line print-fill-line--date"></span>
+        </div>
       </div>
 
       <div class="field">
