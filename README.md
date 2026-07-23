@@ -22,7 +22,7 @@ or serve it locally:
 npx serve prototype
 ```
 
-**Note:** Out of the box, the prototype is a static, front-end-only demo. It simulates authentication (a "demo user" you can switch between) and stores submissions in the browser's `localStorage`, which is not durable and not shared across devices. No email is actually sent to the CFO by this code — see `spec/SPEC.md` for the production workflow, database schema, and notification design.
+**Note:** Out of the box (with no Google Sheets backend configured), the prototype is a static, front-end-only demo — employees type in their own Name, Email, and Employee ID, and submissions are stored in the browser's `localStorage`, which is not durable and not shared across devices. No email is actually sent to the CFO by this code — see `spec/SPEC.md` for the production workflow, database schema, and notification design.
 
 ## Enabling durable storage (Google Sheets backend)
 
@@ -37,3 +37,7 @@ To have responses persist for real, across employees and devices, instead of jus
 5. Reload the form. Submissions now go to the Sheet, and the duplicate-submission check runs server-side, keyed on **Employee ID** + fiscal year (an employee cannot submit twice for the same fiscal year, regardless of browser/device). Employee ID is required on the form for this reason.
 
 To let an employee submit again after a correction is needed, an admin runs the `adminReopen(employeeId, fiscalYear)` function from the Apps Script editor — this is intentionally not exposed as a public endpoint, since a client-callable "reopen" would defeat the duplicate-submission control.
+
+### Print-a-copy tracking
+
+The form also has a **"Print a Copy (PDF)"** button (in the intro section) for employees who'd rather fill it out on paper. Before printing, it asks for First Name, Last Name, and Employee ID, and logs that as a print event — separate from an actual disclosure submission — so there's a record of who printed a copy, distinguishing potential paper submissions from online ones. These log to a second sheet tab, `PrintLog`, created automatically the first time someone prints. If you've already deployed the Apps Script backend from an earlier version of `Code.gs`, you'll need to redeploy (**Deploy > Manage deployments** → pencil icon → **New version** → Deploy) to pick up this logic.

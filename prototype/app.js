@@ -401,6 +401,76 @@ function showConfirmation(record) {
   confirmation.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+/* ---------- Print a copy ---------- */
+// Printing doesn't require completing/submitting the form — it's for
+// employees who want a paper copy. We still record who printed (name +
+// employee ID + timestamp) so there's an audit trail of paper vs. online
+// submissions, separate from the disclosures themselves.
+
+function initPrintFlow() {
+  $('#print-form-btn').addEventListener('click', openPrintModal);
+  $('#print-modal-cancel').addEventListener('click', closePrintModal);
+  $('#print-modal-confirm').addEventListener('click', handlePrintConfirm);
+}
+
+function openPrintModal() {
+  $('#print-first-name').value = '';
+  $('#print-last-name').value = '';
+  $('#print-employee-id').value = '';
+  $('#print-modal-error').hidden = true;
+  $('#print-modal-overlay').hidden = false;
+  $('#print-first-name').focus();
+}
+
+function closePrintModal() {
+  $('#print-modal-overlay').hidden = true;
+}
+
+async function handlePrintConfirm() {
+  const firstName = $('#print-first-name').value.trim();
+  const lastName = $('#print-last-name').value.trim();
+  const employeeId = $('#print-employee-id').value.trim();
+
+  if (!firstName || !lastName || !employeeId) {
+    $('#print-modal-error').hidden = false;
+    return;
+  }
+
+  const printRecord = {
+    eventType: 'print',
+    firstName,
+    lastName,
+    employeeId,
+    fiscalYear: FISCAL_YEAR,
+    printedAt: new Date().toISOString(),
+  };
+
+  try {
+    await logPrintEvent(printRecord);
+  } catch (err) {
+    console.error('Could not reach the disclosure backend to log the print event.', err);
+  }
+
+  closePrintModal();
+  window.print();
+}
+
+async function logPrintEvent(printRecord) {
+  if (usingRemoteBackend()) {
+    await fetch(CONFIG.APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(printRecord),
+    });
+    return;
+  }
+
+  const key = `coi-print-log-${FISCAL_YEAR}`;
+  const existing = JSON.parse(localStorage.getItem(key) || '[]');
+  existing.push(printRecord);
+  localStorage.setItem(key, JSON.stringify(existing));
+}
+
 /* ---------- Init ---------- */
 
 function initApp() {
@@ -410,6 +480,7 @@ function initApp() {
   initRelationshipOtherToggle();
   initCertificationGate();
   initDescriptionCounter();
+  initPrintFlow();
   onConflictStatusChange();
 
   $('#coi-form').addEventListener('submit', handleSubmit);

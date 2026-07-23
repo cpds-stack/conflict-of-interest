@@ -16,6 +16,7 @@
  */
 
 const SHEET_NAME = 'Responses';
+const PRINT_LOG_SHEET_NAME = 'PrintLog';
 
 const HEADERS = [
   'submittedAt', 'fiscalYear', 'employeeName', 'employeeEmail', 'employeeId',
@@ -25,11 +26,17 @@ const HEADERS = [
   'status',
 ];
 
+const PRINT_LOG_HEADERS = ['printedAt', 'fiscalYear', 'firstName', 'lastName', 'employeeId'];
+
 function doPost(e) {
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
     const data = JSON.parse(e.postData.contents);
+
+    if (data.eventType === 'print') {
+      return handlePrintLog(data);
+    }
 
     if (!data.employeeId || !data.fiscalYear) {
       return jsonResponse({ status: 'error', message: 'employeeId and fiscalYear are required.' });
@@ -53,6 +60,27 @@ function doPost(e) {
   } finally {
     lock.releaseLock();
   }
+}
+
+// Logs that an employee printed a copy of the form (name + employee ID +
+// timestamp), so there's a record of paper vs. online submissions. This does
+// not affect duplicate-submission prevention — printing can happen any
+// number of times.
+function handlePrintLog(data) {
+  if (!data.firstName || !data.lastName || !data.employeeId) {
+    return jsonResponse({ status: 'error', message: 'firstName, lastName, and employeeId are required.' });
+  }
+
+  const sheet = getPrintLogSheet();
+  sheet.appendRow([
+    data.printedAt || new Date().toISOString(),
+    data.fiscalYear || '',
+    data.firstName,
+    data.lastName,
+    data.employeeId,
+  ]);
+
+  return jsonResponse({ status: 'ok' });
 }
 
 function doGet(e) {
@@ -79,6 +107,16 @@ function getResponseSheet() {
   if (!sheet) {
     sheet = ss.insertSheet(SHEET_NAME);
     sheet.appendRow(HEADERS);
+  }
+  return sheet;
+}
+
+function getPrintLogSheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName(PRINT_LOG_SHEET_NAME);
+  if (!sheet) {
+    sheet = ss.insertSheet(PRINT_LOG_SHEET_NAME);
+    sheet.appendRow(PRINT_LOG_HEADERS);
   }
   return sheet;
 }

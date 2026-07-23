@@ -35,6 +35,10 @@
       disclose any actual or potential conflicts annually.
     </p>
     <p class="legal-citation">Per Florida Statutes &sect; 112.311 and Walton County HR Policy.</p>
+    <div class="print-option">
+      <p class="muted">If you prefer to submit a paper copy of the form, click this button.</p>
+      <button type="button" id="print-form-btn" class="secondary-btn">Print a Copy (PDF)</button>
+    </div>
   </section>
 
   <section id="already-submitted-notice" class="card banner banner--success" hidden>
@@ -192,6 +196,38 @@
   </section>
 
 </main>
+
+<div id="print-modal-overlay" class="modal-overlay no-print" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="print-modal-title">
+    <h2 id="print-modal-title">Before You Print</h2>
+    <p class="muted">
+      Please enter your information so we can keep a record that you printed a copy of this form.
+      This lets us track paper submissions separately from online ones.
+    </p>
+
+    <div class="field">
+      <label for="print-first-name">First Name <span class="required">*</span></label>
+      <input type="text" id="print-first-name" maxlength="60">
+    </div>
+
+    <div class="field">
+      <label for="print-last-name">Last Name <span class="required">*</span></label>
+      <input type="text" id="print-last-name" maxlength="60">
+    </div>
+
+    <div class="field">
+      <label for="print-employee-id">Employee ID <span class="required">*</span></label>
+      <input type="text" id="print-employee-id" maxlength="20" inputmode="numeric">
+    </div>
+
+    <p id="print-modal-error" class="field-error" hidden>Please fill in all three fields.</p>
+
+    <div class="modal-actions">
+      <button type="button" id="print-modal-cancel" class="link-btn">Cancel</button>
+      <button type="button" id="print-modal-confirm">Continue to Print</button>
+    </div>
+  </div>
+</div>
 
 <footer class="site-footer">
   <p>
