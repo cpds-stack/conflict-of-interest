@@ -354,15 +354,6 @@ button[type="submit"]:hover {
   margin-top: 0;
 }
 
-/* Footer */
-.site-footer {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0 1rem 2rem;
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-}
-
 /* Responsive bump */
 @media (min-width: 600px) {
   .page {
@@ -481,7 +472,6 @@ button[type="submit"]:hover {
   .masthead,
   .print-option,
   .form-actions,
-  .site-footer,
   #error-summary {
     display: none !important;
   }
