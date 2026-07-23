@@ -134,30 +134,6 @@ body {
   font-size: 0.9rem;
 }
 
-/* Banners */
-.banner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem 1rem;
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius);
-  font-size: 0.9rem;
-  margin-bottom: 1.25rem;
-}
-
-.banner--info {
-  background: var(--color-info-bg);
-  border: 1px solid var(--color-gold);
-  color: var(--color-primary-dark);
-}
-
-.banner--success {
-  background: var(--color-success-bg);
-  border: 1px solid #7FB98A;
-  color: var(--color-success-text);
-}
-
 .link-btn {
   background: none;
   border: none;
@@ -502,8 +478,6 @@ button[type="submit"]:hover {
 @media print {
   .no-print,
   .masthead,
-  .banner,
-  #already-submitted-notice,
   .print-option,
   .form-actions,
   .site-footer,

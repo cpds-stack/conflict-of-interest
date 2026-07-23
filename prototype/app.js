@@ -24,14 +24,9 @@ function $all(selector) {
 }
 
 /* ---------- Duplicate-submission check ---------- */
-
-function initEmployeeIdCheck() {
-  $('#employee-id').addEventListener('blur', () => {
-    if ($('#employee-id').value.trim()) {
-      checkExistingSubmission();
-    }
-  });
-}
+// Duplicate submissions are rejected at submit time (server-side by the
+// Google Sheets backend, or client-side against localStorage in the
+// no-backend fallback) — see handleSubmit()/persistSubmission() below.
 
 function storageKeyFor(employeeId) {
   return `coi-submission-${FISCAL_YEAR}-${employeeId}`;
@@ -41,62 +36,14 @@ function usingRemoteBackend() {
   return !!CONFIG.APPS_SCRIPT_URL;
 }
 
-async function checkExistingSubmission() {
-  const employeeId = $('#employee-id').value.trim();
-  const notice = $('#already-submitted-notice');
-  const form = $('#coi-form');
-  const confirmation = $('#confirmation');
-  confirmation.hidden = true;
-
-  if (!employeeId) {
-    notice.hidden = true;
-    form.hidden = false;
-    return;
-  }
-
-  let existing = null;
-
-  if (usingRemoteBackend()) {
-    try {
-      const url = `${CONFIG.APPS_SCRIPT_URL}?employeeId=${encodeURIComponent(employeeId)}&fiscalYear=${FISCAL_YEAR}`;
-      const res = await fetch(url);
-      const data = await res.json();
-      if (data.alreadySubmitted) {
-        existing = { submittedAt: data.submittedAt };
-      }
-    } catch (err) {
-      console.error('Could not reach the disclosure backend to check for an existing submission.', err);
-    }
-  } else {
-    const stored = localStorage.getItem(storageKeyFor(employeeId));
-    if (stored) existing = JSON.parse(stored);
-  }
-
-  const resetBtn = $('#reset-demo-btn');
-
-  if (existing) {
-    notice.hidden = false;
-    form.hidden = true;
-    $('#already-submitted-detail').textContent = existing.submittedAt
-      ? `Submitted ${new Date(existing.submittedAt).toLocaleString()}.`
-      : 'Already submitted.';
-    // Resetting your own submission from the browser is a demo-only
-    // affordance; a real backend only allows an admin to reopen it
-    // (see google-sheets-backend/Code.gs adminReopen()).
-    resetBtn.hidden = usingRemoteBackend();
-  } else {
-    notice.hidden = true;
-    form.hidden = false;
-  }
-}
-
 function resetDemoSubmission() {
   if (usingRemoteBackend()) return; // admin-only in production, see Code.gs adminReopen()
   const employeeId = $('#employee-id').value.trim();
   localStorage.removeItem(storageKeyFor(employeeId));
   $('#coi-form').reset();
   onConflictStatusChange();
-  checkExistingSubmission();
+  $('#coi-form').hidden = false;
+  $('#confirmation').hidden = true;
 }
 
 /* ---------- Conditional logic ---------- */
@@ -328,7 +275,7 @@ async function handleSubmit(event) {
   try {
     const result = await persistSubmission(record);
     if (result.status === 'duplicate') {
-      checkExistingSubmission();
+      renderErrors([{ id: 'employee-id', message: 'A disclosure has already been submitted for this Employee ID and fiscal year.' }]);
     } else {
       showConfirmation(record);
     }
@@ -384,7 +331,11 @@ async function persistSubmission(record) {
     return res.json();
   }
 
-  localStorage.setItem(storageKeyFor(record.employeeId), JSON.stringify(record));
+  const key = storageKeyFor(record.employeeId);
+  if (localStorage.getItem(key)) {
+    return { status: 'duplicate' };
+  }
+  localStorage.setItem(key, JSON.stringify(record));
   return { status: 'ok' };
 }
 
@@ -456,7 +407,13 @@ async function handlePrintConfirm() {
   }
 
   closePrintModal();
-  window.print();
+  // Print a dedicated, forms-designer-built paper layout (print-form.html)
+  // instead of the interactive page — the on-screen form and the paper
+  // form intentionally look nothing alike.
+  const printWindow = window.open('print-form.html', '_blank');
+  if (printWindow) {
+    printWindow.addEventListener('load', () => printWindow.print());
+  }
 }
 
 async function logPrintEvent(printRecord) {
@@ -478,8 +435,6 @@ async function logPrintEvent(printRecord) {
 /* ---------- Init ---------- */
 
 function initApp() {
-  initEmployeeIdCheck();
-  checkExistingSubmission();
   initConflictToggle();
   initRelationshipOtherToggle();
   initCertificationGate();
@@ -488,7 +443,6 @@ function initApp() {
   onConflictStatusChange();
 
   $('#coi-form').addEventListener('submit', handleSubmit);
-  $('#reset-demo-btn').addEventListener('click', resetDemoSubmission);
   $('#submit-another-btn').addEventListener('click', resetDemoSubmission);
 }
 
