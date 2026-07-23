@@ -407,6 +407,15 @@ async function handlePrintConfirm() {
   }
 
   closePrintModal();
+
+  // Hand the name/ID off to the print tab via localStorage (shared across
+  // same-origin tabs, unlike sessionStorage). print-form.html reads this
+  // once on load and clears it immediately after.
+  localStorage.setItem('coi-print-fill', JSON.stringify({
+    employeeName: `${firstName} ${lastName}`.trim(),
+    employeeId,
+  }));
+
   // Print a dedicated, forms-designer-built paper layout (print-form.html)
   // instead of the interactive page — the on-screen form and the paper
   // form intentionally look nothing alike.
