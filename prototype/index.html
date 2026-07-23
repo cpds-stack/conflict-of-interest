@@ -95,7 +95,7 @@
         <input type="text" id="vendor-org" name="vendorOrg" maxlength="200" data-conditional="true" placeholder="e.g. Acme Contracting, or a person's full name">
       </div>
 
-      <div class="field">
+      <div class="field" id="relationship-nature-screen">
         <label for="relationship-nature">Nature of Relationship <span class="required">*</span></label>
         <select id="relationship-nature" name="relationshipNature" data-conditional="true">
           <option value="">Select one&hellip;</option>
@@ -105,6 +105,15 @@
           <option value="gift">Gift / Gratuity</option>
           <option value="other">Other</option>
         </select>
+      </div>
+
+      <div class="field print-only" id="relationship-nature-print">
+        <span class="group-label">Nature of Relationship</span>
+        <div class="print-radio-row"><span class="print-radio-circle"></span> Employment</div>
+        <div class="print-radio-row"><span class="print-radio-circle"></span> Ownership / Investment</div>
+        <div class="print-radio-row"><span class="print-radio-circle"></span> Family / Personal</div>
+        <div class="print-radio-row"><span class="print-radio-circle"></span> Gift / Gratuity</div>
+        <div class="print-radio-row"><span class="print-radio-circle"></span> Other: <span class="print-fill-line"></span></div>
       </div>
 
       <div class="field" id="relationship-other-wrap" hidden>
@@ -173,7 +182,8 @@
       </label>
 
       <div class="field">
-        <label for="signature-input">Electronic Signature (type your full name) <span class="required">*</span></label>
+        <label for="signature-input" class="screen-only">Electronic Signature (type your full name) <span class="required">*</span></label>
+        <label for="signature-input" class="print-only">Employee Signature, sign your full name <span class="required">*</span></label>
         <input type="text" id="signature-input" name="signature" maxlength="150" disabled required autocomplete="off">
         <p class="field-hint">Enabled once you check the certification box above.</p>
       </div>

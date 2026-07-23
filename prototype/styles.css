@@ -486,6 +486,33 @@ button[type="submit"]:hover {
   background: var(--color-primary-dark);
 }
 
+/* Print-only content: hidden on screen, shown only in @media print below. */
+.print-only {
+  display: none;
+}
+
+.print-radio-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 3px;
+}
+
+.print-radio-circle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  flex: 0 0 auto;
+  border: 1px solid #000;
+  border-radius: 50%;
+}
+
+.print-fill-line {
+  display: inline-block;
+  width: 140px;
+  border-bottom: 1px solid #000;
+}
+
 /* Print layout — compacted to fit on a single page. Conflict-details is
    force-shown regardless of the on-screen radio selection, since a paper
    form has to cover both the "no conflict" and "has a conflict" cases. */
@@ -553,9 +580,36 @@ button[type="submit"]:hover {
     margin-bottom: 0.2rem;
   }
 
-  #conflict-details,
-  #relationship-other-wrap {
+  #conflict-details {
     display: block !important;
+  }
+
+  /* The dropdown and its "Other" free-text field are screen-only; print
+     shows a checkable radio list instead, and drops the redundant
+     "please describe the relationship" box (Description of the Conflict
+     below covers that). */
+  #relationship-nature-screen,
+  #relationship-other-wrap,
+  .screen-only {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  #additional-comments {
+    min-height: 70px;
+  }
+
+  #conflict-description {
+    min-height: 45px;
+  }
+
+  input:disabled,
+  input[readonly] {
+    background: #fff !important;
+    color: #000 !important;
   }
 
   .field {
