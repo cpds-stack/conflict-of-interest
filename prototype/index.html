@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Walton County FY2027 Conflict of Interest Disclosure</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <p class="site-header__eyebrow">Walton County, Florida</p>
+    <h1 class="site-header__title">Financial Conflict of Interest Disclosure</h1>
+    <p class="site-header__subtitle">Fiscal Year 2027 &middot; Required Annual Disclosure</p>
+  </div>
+</header>
+
+<main class="page">
+
+  <div id="mock-auth-banner" class="banner banner--info">
+    <span>
+      Demo mode &mdash; logged in as
+      <strong id="mock-user-name">Jane Doe</strong>
+      (<span id="mock-user-email">jane.doe@waltoncountyfl.gov</span>)
+    </span>
+    <button type="button" id="switch-user-btn" class="link-btn">Switch demo user</button>
+  </div>
+
+  <section id="intro" class="card">
+    <p>
+      No employee or official shall have a direct or indirect financial, personal, business, or other
+      interest that conflicts or appears to conflict with public duties. Employees are required to
+      disclose any actual or potential conflicts annually.
+    </p>
+    <p class="legal-citation">Per Florida Statutes &sect; 112.311 and Walton County HR Policy.</p>
+  </section>
+
+  <section id="already-submitted-notice" class="card banner banner--success" hidden>
+    <p>You have already submitted a disclosure for Fiscal Year 2027.</p>
+    <p id="already-submitted-detail" class="muted"></p>
+    <button type="button" id="reset-demo-btn" class="link-btn">Reset demo submission (admin reopen simulation)</button>
+  </section>
+
+  <form id="coi-form" class="card" novalidate>
+
+    <div id="error-summary" class="error-summary" role="alert" hidden>
+      <p class="error-summary__title">Please fix the following before submitting:</p>
+      <ul id="error-summary-list"></ul>
+    </div>
+
+    <fieldset id="employee-info">
+      <legend>Employee Information</legend>
+
+      <div class="field">
+        <label for="employee-name">Employee Name <span class="required">*</span></label>
+        <input type="text" id="employee-name" name="employeeName" maxlength="100" required autocomplete="name">
+        <p class="field-hint">Auto-populated from your login.</p>
+      </div>
+
+      <div class="field">
+        <label for="employee-email">Employee Email <span class="required">*</span></label>
+        <input type="email" id="employee-email" name="employeeEmail" maxlength="150" required autocomplete="email">
+        <p class="field-hint">Auto-populated from your login.</p>
+      </div>
+
+      <div class="field">
+        <label for="employee-id">Employee ID <span class="required">*</span></label>
+        <input type="text" id="employee-id" name="employeeId" maxlength="20" inputmode="numeric" required>
+        <p class="field-hint">Used as your unique identifier to prevent duplicate submissions.</p>
+      </div>
+    </fieldset>
+
+    <fieldset id="conflict-question">
+      <legend>Conflict of Interest Question <span class="required">*</span></legend>
+
+      <label class="radio-option">
+        <input type="radio" name="conflictStatus" value="no" required>
+        <span>I have no potential conflict of interest.</span>
+      </label>
+      <label class="radio-option">
+        <input type="radio" name="conflictStatus" value="yes" required>
+        <span>I have a potential conflict of interest.</span>
+      </label>
+    </fieldset>
+
+    <fieldset id="conflict-details" hidden>
+      <legend>Conflict Details</legend>
+
+      <div class="field">
+        <label for="vendor-org">Name of Business or Person with Conflict of Interest <span class="required">*</span></label>
+        <input type="text" id="vendor-org" name="vendorOrg" maxlength="200" data-conditional="true" placeholder="e.g. Acme Contracting, or a person's full name">
+      </div>
+
+      <div class="field">
+        <label for="relationship-nature">Nature of Relationship <span class="required">*</span></label>
+        <select id="relationship-nature" name="relationshipNature" data-conditional="true">
+          <option value="">Select one&hellip;</option>
+          <option value="employment">Employment</option>
+          <option value="ownership">Ownership / Investment</option>
+          <option value="family">Family / Personal</option>
+          <option value="gift">Gift / Gratuity</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="field" id="relationship-other-wrap" hidden>
+        <label for="relationship-other-text">Please describe the relationship <span class="required">*</span></label>
+        <input type="text" id="relationship-other-text" name="relationshipNatureOther" maxlength="200">
+      </div>
+
+      <div class="field">
+        <label for="conflict-description">Description of the Conflict <span class="required">*</span></label>
+        <textarea id="conflict-description" name="conflictDescription" maxlength="1000" rows="4" data-conditional="true"></textarea>
+        <p class="field-hint"><span id="description-count">0</span>/1000</p>
+      </div>
+
+      <div class="field field--inline-group">
+        <span class="group-label">Financial Interest <span class="required">*</span></span>
+        <label class="radio-option radio-option--compact">
+          <input type="radio" name="financialInterest" value="yes" data-conditional="true"><span>Yes</span>
+        </label>
+        <label class="radio-option radio-option--compact">
+          <input type="radio" name="financialInterest" value="no" data-conditional="true"><span>No</span>
+        </label>
+      </div>
+
+      <div class="field field--inline-group">
+        <span class="group-label">Personal Relationship <span class="required">*</span></span>
+        <label class="radio-option radio-option--compact">
+          <input type="radio" name="personalRelationship" value="yes" data-conditional="true"><span>Yes</span>
+        </label>
+        <label class="radio-option radio-option--compact">
+          <input type="radio" name="personalRelationship" value="no" data-conditional="true"><span>No</span>
+        </label>
+      </div>
+
+      <div class="field field--inline-group">
+        <span class="group-label">Business Relationship <span class="required">*</span></span>
+        <label class="radio-option radio-option--compact">
+          <input type="radio" name="businessRelationship" value="yes" data-conditional="true"><span>Yes</span>
+        </label>
+        <label class="radio-option radio-option--compact">
+          <input type="radio" name="businessRelationship" value="no" data-conditional="true"><span>No</span>
+        </label>
+      </div>
+
+      <div class="field">
+        <label for="conflict-began-date">Date Conflict Began <span class="required">*</span></label>
+        <input type="date" id="conflict-began-date" name="conflictBeganDate" data-conditional="true">
+      </div>
+
+      <div class="field">
+        <label for="additional-comments">Additional Comments <span class="optional">(optional)</span></label>
+        <textarea id="additional-comments" name="additionalComments" maxlength="1000" rows="3"></textarea>
+      </div>
+    </fieldset>
+
+    <fieldset id="certification">
+      <legend>Certification</legend>
+
+      <p class="certification-statement">
+        I certify that this information is true and complete to the best of my knowledge. I understand
+        that any future conflicts must be disclosed immediately.
+      </p>
+
+      <label class="checkbox-option">
+        <input type="checkbox" id="certify-checkbox" name="certify" required>
+        <span>I certify the statement above.</span>
+      </label>
+
+      <div class="field">
+        <label for="signature-input">Electronic Signature (type your full name) <span class="required">*</span></label>
+        <input type="text" id="signature-input" name="signature" maxlength="150" disabled required autocomplete="off">
+        <p class="field-hint">Enabled once you check the certification box above.</p>
+      </div>
+
+      <div class="field">
+        <label for="certification-date">Date</label>
+        <input type="text" id="certification-date" name="certificationDate" readonly>
+      </div>
+    </fieldset>
+
+    <div class="form-actions">
+      <button type="submit" id="submit-btn">Submit Disclosure</button>
+    </div>
+  </form>
+
+  <section id="confirmation" class="card confirmation" hidden>
+    <h2>Thank you. Your disclosure has been submitted.</h2>
+    <p id="confirmation-detail" class="muted"></p>
+    <button type="button" id="submit-another-btn" class="link-btn">Reset (demo only) &mdash; submit another</button>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>
+    This is a static front-end prototype for demonstration purposes. No real data is transmitted or
+    stored beyond this browser, and no email notifications are sent by this page. See
+    <code>spec/SPEC.md</code> for the full production specification.
+  </p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

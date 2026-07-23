@@ -1,0 +1,367 @@
+:root {
+  --color-primary: #1E4D2B;
+  --color-primary-dark: #143620;
+  --color-sand: #EFE6C8;
+  --color-gold: #C9A227;
+  --color-gold-dark: #A6841F;
+  --color-bg: #F7F6F0;
+  --color-surface: #FFFFFF;
+  --color-text: #23272A;
+  --color-text-muted: #5A5F63;
+  --color-border: #D9D2B8;
+  --color-error: #B3261E;
+  --color-error-bg: #FBEAE9;
+  --color-success-bg: #E9F3E9;
+  --color-success-text: #21532A;
+  --color-info-bg: #F1EAD2;
+  --radius: 10px;
+  --max-width: 720px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Header */
+.site-header {
+  background: var(--color-primary);
+  color: #fff;
+  border-bottom: 3px solid var(--color-gold);
+  padding: 1.5rem 1rem;
+}
+
+.site-header__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.site-header__eyebrow {
+  margin: 0 0 0.25rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-sand);
+}
+
+.site-header__title {
+  margin: 0 0 0.25rem;
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+.site-header__subtitle {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-sand);
+}
+
+/* Page layout */
+.page {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1.25rem 1rem 3rem;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.legal-citation {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.muted {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+/* Banners */
+.banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+}
+
+.banner--info {
+  background: var(--color-info-bg);
+  border: 1px solid var(--color-gold);
+  color: var(--color-primary-dark);
+}
+
+.banner--success {
+  background: var(--color-success-bg);
+  border: 1px solid #7FB98A;
+  color: var(--color-success-text);
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  text-decoration: underline;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+.link-btn:hover {
+  color: var(--color-primary-dark);
+}
+
+/* Fieldsets */
+fieldset {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  padding: 1.25rem 0;
+  margin: 0;
+}
+
+fieldset:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+legend {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--color-primary);
+  padding: 0;
+  margin-bottom: 0.75rem;
+}
+
+#conflict-details {
+  border-left: 3px solid var(--color-gold);
+  padding-left: 1rem;
+  margin-left: -1rem;
+}
+
+/* Fields */
+.field {
+  margin-bottom: 1rem;
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+label,
+.group-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  font-size: 0.95rem;
+}
+
+.required {
+  color: var(--color-error);
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.field-hint {
+  margin: 0.3rem 0 0;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  font-size: 1rem;
+  font-family: inherit;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--color-text);
+  min-height: 44px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 88px;
+}
+
+input:disabled,
+input[readonly] {
+  background: #F1EFE9;
+  color: var(--color-text-muted);
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus,
+.link-btn:focus {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 1px;
+}
+
+/* Radios / checkboxes */
+.radio-option,
+.checkbox-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.6rem 0.25rem;
+  font-weight: 400;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.radio-option input,
+.checkbox-option input {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.field--inline-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+}
+
+.field--inline-group .group-label {
+  width: 100%;
+  margin-bottom: 0.25rem;
+}
+
+.radio-option--compact {
+  padding: 0.4rem 0.25rem;
+}
+
+.certification-statement {
+  background: #F1EFE9;
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  font-size: 0.95rem;
+  margin: 0 0 1rem;
+}
+
+/* Errors */
+.error-summary {
+  background: var(--color-error-bg);
+  border: 1px solid var(--color-error);
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.error-summary__title {
+  margin: 0 0 0.4rem;
+  font-weight: 700;
+  color: var(--color-error);
+}
+
+.error-summary ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.error-summary a {
+  color: var(--color-error);
+}
+
+.field.has-error input,
+.field.has-error select,
+.field.has-error textarea {
+  border-color: var(--color-error);
+}
+
+.field-error {
+  color: var(--color-error);
+  font-size: 0.85rem;
+  margin: 0.3rem 0 0;
+  font-weight: 600;
+}
+
+/* Actions */
+.form-actions {
+  margin-top: 1.5rem;
+  text-align: right;
+}
+
+button[type="submit"] {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.8rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+button[type="submit"]:hover {
+  background: var(--color-primary-dark);
+}
+
+.confirmation h2 {
+  color: var(--color-primary);
+  margin-top: 0;
+}
+
+/* Footer */
+.site-footer {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+/* Responsive bump */
+@media (min-width: 600px) {
+  .page {
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .card {
+    padding: 1.75rem 2rem;
+  }
+
+  .site-header {
+    padding: 2rem 1.5rem;
+  }
+
+  .site-header__title {
+    font-size: 1.75rem;
+  }
+
+  body {
+    font-size: 16.5px;
+  }
+}
