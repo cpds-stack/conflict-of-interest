@@ -409,31 +409,10 @@ button[type="submit"]:hover {
   }
 }
 
-/* Print-a-copy button */
+/* Print-a-copy link (kept deliberately low-emphasis — most employees should
+   use the online form; this is only for those who prefer paper). */
 .print-option {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--color-border);
-}
-
-.print-option .muted {
-  margin: 0 0 0.6rem;
-}
-
-.secondary-btn {
-  background: #fff;
-  color: var(--color-primary);
-  border: 2px solid var(--color-primary);
-  border-radius: 6px;
-  padding: 0.6rem 1.25rem;
-  font-size: 0.95rem;
-  font-weight: 700;
-  cursor: pointer;
-  min-height: 44px;
-}
-
-.secondary-btn:hover {
-  background: var(--color-info-bg);
+  margin: 0.75rem 0 0;
 }
 
 /* Print-confirmation modal */

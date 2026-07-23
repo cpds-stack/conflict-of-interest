@@ -411,6 +411,10 @@ function initPrintFlow() {
   $('#print-form-btn').addEventListener('click', openPrintModal);
   $('#print-modal-cancel').addEventListener('click', closePrintModal);
   $('#print-modal-confirm').addEventListener('click', handlePrintConfirm);
+
+  // Guard against the browser's back/forward cache restoring a page that
+  // had the modal open — it should never appear except from an actual click.
+  window.addEventListener('pageshow', closePrintModal);
 }
 
 function openPrintModal() {
