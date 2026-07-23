@@ -70,7 +70,7 @@ A citation line accompanies this statement: *"Per Florida Statutes § 112.311 an
 | Employee ID | `text` (`inputmode="numeric"`) | Yes | 20 | County badge/employee number; unique identifier used for duplicate-submission prevention |
 | Conflict of Interest Question | `radio` (2 options) | Yes | — | Drives conditional section |
 | Name of Business or Person with Conflict of Interest | `text` | Required if conflict = yes | 200 | |
-| Nature of Relationship | `select` (Employment, Ownership/Investment, Family/Personal, Gift/Gratuity, Other) | Required if conflict = yes | — | "Other" reveals a follow-up free-text field |
+| Nature of Relationship | `select` (Employment, Ownership/Investment, Family/Personal, Other) | Required if conflict = yes | — | "Other" reveals a follow-up free-text field |
 | Nature of Relationship (Other, free text) | `text` | Required if "Other" selected | 200 | |
 | Description of the Conflict | `textarea` | Required if conflict = yes | 1000 | Character counter recommended |
 | Financial Interest | `radio` (Yes/No) | Required if conflict = yes | — | |
@@ -149,7 +149,7 @@ CREATE TABLE conflict_details (
     vendor_organization     VARCHAR(200) NOT NULL,
     relationship_nature     VARCHAR(50) NOT NULL
                                 CHECK (relationship_nature IN
-                                    ('employment', 'ownership', 'family', 'gift', 'other')),
+                                    ('employment', 'ownership', 'family', 'other')),
     relationship_nature_other VARCHAR(200),
     description             TEXT NOT NULL,
     financial_interest      BOOLEAN NOT NULL,

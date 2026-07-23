@@ -17,7 +17,7 @@ const FISCAL_YEAR = 2027;
 
 // Bump this whenever print-form.html changes — GitHub Pages caches it for
 // 10 minutes, so an un-versioned URL can serve a stale copy after a deploy.
-const PRINT_FORM_VERSION = '20260723-margin-fix';
+const PRINT_FORM_VERSION = '20260723-relationship-layout';
 
 function $(selector) {
   return document.querySelector(selector);
