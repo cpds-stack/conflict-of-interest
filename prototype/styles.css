@@ -427,6 +427,10 @@ button[type="submit"]:hover {
   z-index: 100;
 }
 
+.modal-overlay[hidden] {
+  display: none;
+}
+
 .modal {
   background: #fff;
   border-radius: var(--radius);
