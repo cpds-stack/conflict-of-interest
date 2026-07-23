@@ -1,6 +1,6 @@
-// The "demo user" below stands in for real authentication — no email is
-// ever sent to the CFO by this code; see spec/SPEC.md Section 6 for the
-// production notification workflow.
+// There is no real authentication here — employees type in their own Name,
+// Email, and Employee ID. No email is ever sent to the CFO by this code;
+// see spec/SPEC.md Section 6 for the production notification workflow.
 //
 // Persistence: if CONFIG.APPS_SCRIPT_URL is set, submissions are sent to a
 // Google Sheets-backed Apps Script Web App (see /google-sheets-backend),
@@ -15,14 +15,6 @@ const CONFIG = {
 
 const FISCAL_YEAR = 2027;
 
-const DEMO_USERS = [
-  { name: 'Jane Doe', email: 'jane.doe@waltoncountyfl.gov', employeeId: '10234' },
-  { name: 'Marcus Alvarez', email: 'marcus.alvarez@waltoncountyfl.gov', employeeId: '10567' },
-  { name: 'Priya Chandran', email: 'priya.chandran@waltoncountyfl.gov', employeeId: '10891' },
-];
-
-let currentUserIndex = 0;
-
 function $(selector) {
   return document.querySelector(selector);
 }
@@ -31,29 +23,15 @@ function $all(selector) {
   return Array.from(document.querySelectorAll(selector));
 }
 
-/* ---------- Mock auth ---------- */
-
-function initMockAuth() {
-  applyCurrentUser();
-  $('#switch-user-btn').addEventListener('click', handleSwitchUser);
-}
-
-function applyCurrentUser() {
-  const user = DEMO_USERS[currentUserIndex];
-  $('#mock-user-name').textContent = user.name;
-  $('#mock-user-email').textContent = user.email;
-  $('#employee-name').value = user.name;
-  $('#employee-email').value = user.email;
-  $('#employee-id').value = user.employeeId;
-}
-
-function handleSwitchUser() {
-  currentUserIndex = (currentUserIndex + 1) % DEMO_USERS.length;
-  applyCurrentUser();
-  checkExistingSubmission();
-}
-
 /* ---------- Duplicate-submission check ---------- */
+
+function initEmployeeIdCheck() {
+  $('#employee-id').addEventListener('blur', () => {
+    if ($('#employee-id').value.trim()) {
+      checkExistingSubmission();
+    }
+  });
+}
 
 function storageKeyFor(employeeId) {
   return `coi-submission-${FISCAL_YEAR}-${employeeId}`;
@@ -64,17 +42,23 @@ function usingRemoteBackend() {
 }
 
 async function checkExistingSubmission() {
-  const user = DEMO_USERS[currentUserIndex];
+  const employeeId = $('#employee-id').value.trim();
   const notice = $('#already-submitted-notice');
   const form = $('#coi-form');
   const confirmation = $('#confirmation');
   confirmation.hidden = true;
 
+  if (!employeeId) {
+    notice.hidden = true;
+    form.hidden = false;
+    return;
+  }
+
   let existing = null;
 
   if (usingRemoteBackend()) {
     try {
-      const url = `${CONFIG.APPS_SCRIPT_URL}?employeeId=${encodeURIComponent(user.employeeId)}&fiscalYear=${FISCAL_YEAR}`;
+      const url = `${CONFIG.APPS_SCRIPT_URL}?employeeId=${encodeURIComponent(employeeId)}&fiscalYear=${FISCAL_YEAR}`;
       const res = await fetch(url);
       const data = await res.json();
       if (data.alreadySubmitted) {
@@ -84,7 +68,7 @@ async function checkExistingSubmission() {
       console.error('Could not reach the disclosure backend to check for an existing submission.', err);
     }
   } else {
-    const stored = localStorage.getItem(storageKeyFor(user.employeeId));
+    const stored = localStorage.getItem(storageKeyFor(employeeId));
     if (stored) existing = JSON.parse(stored);
   }
 
@@ -108,10 +92,9 @@ async function checkExistingSubmission() {
 
 function resetDemoSubmission() {
   if (usingRemoteBackend()) return; // admin-only in production, see Code.gs adminReopen()
-  const user = DEMO_USERS[currentUserIndex];
-  localStorage.removeItem(storageKeyFor(user.employeeId));
+  const employeeId = $('#employee-id').value.trim();
+  localStorage.removeItem(storageKeyFor(employeeId));
   $('#coi-form').reset();
-  applyCurrentUser();
   onConflictStatusChange();
   checkExistingSubmission();
 }
@@ -359,7 +342,6 @@ async function handleSubmit(event) {
 function buildSubmissionRecord() {
   const conflictSelected = document.querySelector('input[name="conflictStatus"]:checked');
   const hasConflict = conflictSelected.value === 'yes';
-  const user = DEMO_USERS[currentUserIndex];
 
   const record = {
     fiscalYear: FISCAL_YEAR,
@@ -370,7 +352,6 @@ function buildSubmissionRecord() {
     certificationSignature: $('#signature-input').value.trim(),
     certificationDate: $('#certification-date').value,
     submittedAt: new Date().toISOString(),
-    submittedBy: user.email,
     status: 'submitted',
   };
 
@@ -423,7 +404,7 @@ function showConfirmation(record) {
 /* ---------- Init ---------- */
 
 function initApp() {
-  initMockAuth();
+  initEmployeeIdCheck();
   checkExistingSubmission();
   initConflictToggle();
   initRelationshipOtherToggle();
