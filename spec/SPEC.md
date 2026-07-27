@@ -46,7 +46,7 @@ A citation line accompanies this statement: *"Per Florida Statutes § 112.311 an
    - Date conflict began
    - Additional comments
 6. **Certification** — required for every submission, regardless of conflict status:
-   - Statement: *"I certify that this information is true and complete to the best of my knowledge. I understand that any future conflicts must be disclosed immediately."*
+   - Statement: *"I certify that this information is true and complete to the best of my knowledge. I understand that any future conflicts must be disclosed immediately to the Chief Financial Officer (CFO) and County Administration."*
    - Electronic signature (typed full name)
    - Certification date (auto-generated, read-only)
 7. **Submission Confirmation** — on successful submit, the form displays: *"Thank you. Your disclosure has been submitted."*
