@@ -130,6 +130,14 @@ body {
   color: var(--color-text-muted);
 }
 
+.legal-citation a {
+  color: var(--color-primary);
+}
+
+.legal-citation a:hover {
+  color: var(--color-primary-dark);
+}
+
 .muted {
   color: var(--color-text-muted);
   font-size: 0.9rem;

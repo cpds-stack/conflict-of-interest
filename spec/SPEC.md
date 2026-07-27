@@ -26,7 +26,7 @@ This disclosure requirement is grounded in **Florida Statutes Chapter 112.311**,
 
 > No employee or official shall have a direct or indirect financial, personal, business, or other interest that conflicts or appears to conflict with public duties. Employees are required to disclose any actual or potential conflicts annually.
 
-A citation line accompanies this statement: *"Per Florida Statutes § 112.311 and Walton County HR Policy."*
+A citation line accompanies this statement: *"Per Florida Statutes § 112.311 and Walton County Human Resources Policy."* On the web form, both references are hyperlinked to their respective official sources.
 
 ### 1.4 Field-by-Field Walkthrough (submission order)
 
