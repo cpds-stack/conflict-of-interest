@@ -274,7 +274,9 @@ async function handleSubmit(event) {
 
   const record = buildSubmissionRecord();
   const submitBtn = $('#submit-btn');
+  const originalLabel = submitBtn.textContent;
   submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting…';
 
   try {
     const result = await persistSubmission(record);
@@ -287,6 +289,7 @@ async function handleSubmit(event) {
     renderErrors([{ id: 'employee-email', message: 'Could not reach the disclosure backend. Please try again.' }]);
   } finally {
     submitBtn.disabled = false;
+    submitBtn.textContent = originalLabel;
   }
 }
 
