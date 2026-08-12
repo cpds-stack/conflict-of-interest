@@ -47,6 +47,7 @@ function resetDemoSubmission() {
   $('#coi-form').reset();
   onConflictStatusChange();
   $('#coi-form').hidden = false;
+  $('#print-option').hidden = false;
   $('#confirmation').hidden = true;
 }
 
@@ -348,6 +349,7 @@ async function persistSubmission(record) {
 
 function showConfirmation(record) {
   $('#coi-form').hidden = true;
+  $('#print-option').hidden = true;
   const confirmation = $('#confirmation');
   confirmation.hidden = false;
   $('#confirmation-detail').textContent =
