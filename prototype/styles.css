@@ -43,6 +43,14 @@ body {
   display: flex;
   align-items: center;
   gap: 16px;
+  text-decoration: none;
+  color: inherit;
+  width: fit-content;
+}
+
+.masthead__inner:focus {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 2px;
 }
 
 .masthead__seal {
