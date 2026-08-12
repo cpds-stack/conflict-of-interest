@@ -351,8 +351,7 @@ function showConfirmation(record) {
   const confirmation = $('#confirmation');
   confirmation.hidden = false;
   $('#confirmation-detail').textContent =
-    `Recorded for ${record.employeeName} at ${new Date(record.submittedAt).toLocaleString()}.` +
-    (record.hasConflict ? ' The CFO would be notified automatically in production.' : '');
+    `Recorded for ${record.employeeName} at ${new Date(record.submittedAt).toLocaleString()}.`;
   // Resubmitting is a demo-only affordance; with a real backend, only an
   // admin can reopen a disclosure (see google-sheets-backend/Code.gs adminReopen()).
   $('#submit-another-btn').hidden = usingRemoteBackend();
